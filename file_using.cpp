@@ -3,11 +3,9 @@
 #include <assert.h>
 #include "file_using.h"
 
-const int NUMBER_OF_FILES = 2;
-
-bool check_file_founded(int argc)
+bool check_file_founded(int argc, int number_of_files)
 {
-    if (argc < NUMBER_OF_FILES)
+    if (argc < number_of_files)
     {
         fprintf(stderr, "Files not founded\n");
         return 1;
