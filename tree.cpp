@@ -6,30 +6,41 @@
 #include "file_using.h"
 
 const int MAX_COMMAND_LEN = 100;
-
+const int FILE_NUBER = 2;
 int main(int argc, char* argv[])
 {
     node_t* root = NULL;
     char user_command[MAX_COMMAND_LEN] = {0};
     char root_data[] = "Император ведает что";
+    char finding_goal[] = "Полторашка";
     char way[MAX_COMMAND_LEN] = "Z";
+    FILE* print_address = NULL;
 
     if (node_init(&root, root_data))
         return ALLOCATION_ERROR;
 
     akinator(root, user_command);
 
-    if (check_file_founded(argc, 1))
-        return 1;
+    if (check_file_founded(argc, 2))
+        return FILES_NOT_FOUNDED_ERROR;
 
     tree_dump(root, argv[1]);
 
-    find_way(root, "Полторашка", way);
+    find_way(root, finding_goal, way);
     printf("way = %s\n", way);
 
-    find_definition(root, "Полторашка");
+    find_definition(root, finding_goal);
 
     print_node(root);
+
+    if (check_file_opening(argv[2], &print_address, "w"))
+        return FILE_OPENING_ERROR;
+
+    file_print_node(root, print_address);
+
+    if (check_file_closing(print_address))
+        return FILE_CLOSING_ERROR;
+
     node_destroy(root);
 
     return 0;
@@ -62,8 +73,25 @@ void print_node(node_t* node)
     printf(")");
 }
 
+void file_print_node(node_t* node, FILE* print_address)
+{
+    assert(node);
+    assert(print_address);
+
+    fprintf(print_address, "(");
+    fprintf(print_address, "\"%s\" ", node->data);
+    if (node->left != NULL) file_print_node(node->left, print_address);
+    if (node->right != NULL) file_print_node(node->right, print_address);
+    fprintf(print_address, ")");
+
+    return;
+}
+
 tree_errors tree_dump(node_t* root, char* file_name)
 {
+    assert(root);
+    assert(file_name);
+
     FILE* dump_address = NULL;
     char root_address[10] = "Z";
 
@@ -222,25 +250,40 @@ char* find_way(node_t* node, char* value, char* way)
     assert(node);
     assert(value);
     assert(way);
+    char* new_way = NULL;
 
     if (strcmp(node->data, value) == 0)
         return way;
 
     if (node->left != NULL)
     {
-        way = find_way(node->left, value, strcat(way, "L"));
+        //printf("way = [%s]\n strlen(way) = %lu\n", way, strlen(way));
 
-        if (way)
+        new_way = find_way(node->left, value, strcat(way, "L"));
+
+        //printf("way = [%s]\n strlen(way) = %lu\n", way, strlen(way));
+
+        if (new_way != NULL)
+        {
+            way = new_way;
             return way;
-        way[strlen(way) - 1] = '\0';
+        }
+        way[strlen(way) - 1 ] = '\0';
     }
 
     if (node->right != NULL)
     {
-        way = find_way(node->right, value, strcat(way, "R"));
+        //printf("way = [%s]\n strlen(way) = %lu\n", way, strlen(way));
 
-        if (way)
+        new_way = find_way(node->right, value, strcat(way, "R"));
+
+        //printf("way = [%s]\n strlen(way) = %lu\n", way, strlen(way));
+
+        if (new_way != NULL)
+        {
+            way = new_way;
             return way;
+        }
         way[strlen(way) - 1] = '\0';
     }
 
@@ -257,8 +300,11 @@ void find_definition(node_t* node, char* value)
     find_way(node, value, way);
 
     if (strcmp(way, "Z") == 0)
+    {
         printf("Такого тут нет\n");
-
+        return;
+    }
+    
     printf("%s - это", value);
     for (size_t i = 0; i < strlen(value) - 1; i++)
     {

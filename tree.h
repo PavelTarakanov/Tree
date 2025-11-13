@@ -13,10 +13,12 @@ enum tree_errors{
     FILE_OPENING_ERROR = 2,
     FILE_CLOSING_ERROR = 3,
     GRAPH_MAKING_ERROR = 4,
+    FILES_NOT_FOUNDED_ERROR = 5,
 };
 
 tree_errors node_init(node_t** node, char* value);
 void print_node(node_t* node);
+void file_print_node(node_t* node, FILE* print_address);
 tree_errors node_dump(node_t* node, FILE* dump_address, char* node_way);
 tree_errors tree_dump(node_t* root, char* file_name);
 void node_destroy(node_t* node);
@@ -24,7 +26,6 @@ int akinator(node_t* root, char* user_command);
 tree_errors make_new_node(node_t* node, char* user_command);
 char* find_way(node_t* node, char* value, char* way);
 void find_definition(node_t* node, char* value);
-
 bool check_file_founded(int argc, int number_of_files);
 
 #endif //TREE_H

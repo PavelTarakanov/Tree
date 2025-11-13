@@ -1,7 +1,15 @@
 digraph{
 	Z[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = животное | {left = 0x503000000070 | right = 0x5030000000a0}}"];
 	Z -> ZL
-	ZL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Полторашка | {left = NULL | right = NULL}}"];
+	ZL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = тупой | {left = 0x5030000000d0 | right = 0x503000000100}}"];
+	ZL -> ZLL
+	ZLL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = кабанчик | {left = NULL | right = NULL}}"];
+	ZL -> ZLR
+	ZLR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = пёс | {left = 0x503000000130 | right = 0x503000000160}}"];
+	ZLR -> ZLRL
+	ZLRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Рекс | {left = NULL | right = NULL}}"];
+	ZLR -> ZLRR
+	ZLRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Потлорашка | {left = NULL | right = NULL}}"];
 	Z -> ZR
 	ZR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Император ведает что | {left = NULL | right = NULL}}"];
 }
