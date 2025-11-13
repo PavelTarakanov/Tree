@@ -3,17 +3,6 @@
 #include <assert.h>
 #include "file_using.h"
 
-bool check_file_founded(int argc, int number_of_files)
-{
-    if (argc < number_of_files)
-    {
-        fprintf(stderr, "Files not founded\n");
-        return 1;
-    }
-
-    return 0;
-}
-
 bool check_file_opening(const char *input_address, FILE** file_ptr, const char* access_rights)
 {
     if ((*file_ptr = fopen(input_address, access_rights)) == NULL)

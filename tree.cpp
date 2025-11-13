@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <string.h>//TODO push github
+#include <string.h>
 #include "tree.h"
 #include "file_using.h"
 
@@ -26,6 +26,9 @@ int main(int argc, char* argv[])
 
     find_way(root, "Полторашка", way);
     printf("way = %s\n", way);
+
+    find_definition(root, "Полторашка");
+
     print_node(root);
     node_destroy(root);
 
@@ -191,7 +194,7 @@ int akinator(node_t* root, char* user_command)
     return 0;
 }
 
-tree_errors make_new_node(node_t* node, char* user_command)//TODO если есть не или нет
+tree_errors make_new_node(node_t* node, char* user_command)
 {
     assert(node);
     assert(user_command);
@@ -216,21 +219,73 @@ tree_errors make_new_node(node_t* node, char* user_command)//TODO если ес�
 
 char* find_way(node_t* node, char* value, char* way)
 {
+    assert(node);
+    assert(value);
+    assert(way);
+
     if (strcmp(node->data, value) == 0)
         return way;
 
     if (node->left != NULL)
     {
-        way = find_way(node->left, value, strncat(way, "L", 1));
+        way = find_way(node->left, value, strcat(way, "L"));
+
         if (way)
             return way;
+        way[strlen(way) - 1] = '\0';
     }
+
     if (node->right != NULL)
     {
-        way = find_way(node->right, value, strncat(way, "R", 1));
+        way = find_way(node->right, value, strcat(way, "R"));
+
         if (way)
             return way;
+        way[strlen(way) - 1] = '\0';
     }
 
     return NULL;
 }
+
+void find_definition(node_t* node, char* value)
+{
+    assert(node);
+    assert(value);
+
+    char way[MAX_COMMAND_LEN] = "Z";
+
+    find_way(node, value, way);
+
+    if (strcmp(way, "Z") == 0)
+        printf("Такого тут нет\n");
+
+    printf("%s - это", value);
+    for (size_t i = 0; i < strlen(value) - 1; i++)
+    {
+        if (way[i+1] == 'L')
+        {
+            printf(" %s,", node->data);
+            node = node->left;
+        }
+        if (way[i+1] == 'R')
+        {
+            printf(" не %s,", node->data);
+            node = node->right;
+        }
+    }
+    printf("\n");
+
+    return;
+}
+
+bool check_file_founded(int argc, int number_of_files)
+{
+    if (argc < number_of_files)
+    {
+        fprintf(stderr, "Files not founded\n");
+        return 1;
+    }
+
+    return 0;
+}
+

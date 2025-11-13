@@ -23,5 +23,8 @@ void node_destroy(node_t* node);
 int akinator(node_t* root, char* user_command);
 tree_errors make_new_node(node_t* node, char* user_command);
 char* find_way(node_t* node, char* value, char* way);
+void find_definition(node_t* node, char* value);
+
+bool check_file_founded(int argc, int number_of_files);
 
 #endif //TREE_H

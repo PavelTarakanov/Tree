@@ -3,9 +3,5 @@ digraph{
 	Z -> ZL
 	ZL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Полторашка | {left = NULL | right = NULL}}"];
 	Z -> ZR
-	ZR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = ведёт матан | {left = 0x5030000000d0 | right = 0x503000000100}}"];
-	ZR -> ZRL
-	ZRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Петрович | {left = NULL | right = NULL}}"];
-	ZR -> ZRR
-	ZRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Император ведает что | {left = NULL | right = NULL}}"];
+	ZR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Император ведает что | {left = NULL | right = NULL}}"];
 }
