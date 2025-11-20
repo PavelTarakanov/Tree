@@ -1,4 +1,4 @@
-#include <stdio.h>//TODO verify
+#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
     char user_command[MAX_COMMAND_LEN] = {0};
     char finding_goal[] = "Полторашка";
     char way[MAX_COMMAND_LEN] = "Z";
+    char value_1[] = "Рекс";
+    char value_2[] = "Шарик";
 
     if (check_file_founded(argc, 2))
         return FILES_NOT_FOUNDED_ERROR;
@@ -25,7 +27,7 @@ int main(int argc, char* argv[])
 
     tree_dump(root);
 
-    speak("Привет");
+    //speak("Привет");
 
     akinator(root, user_command);
 
@@ -35,6 +37,8 @@ int main(int argc, char* argv[])
     printf("way = %s\n", way);
 
     find_definition(root, finding_goal);
+
+    find_difference(root, value_1, value_2);
 
     file_print_tree(argc, argv, root);
 
@@ -51,7 +55,7 @@ void speak(const char *text)
     system(command);
 }
 
-tree_errors read_tree(char* const file_name, node_t** root)//TODO прверять работу функций
+tree_errors read_tree(char* const file_name, node_t** root)
 {
     assert(file_name);
     assert(root);
@@ -77,7 +81,7 @@ tree_errors read_tree(char* const file_name, node_t** root)//TODO прверят
 
     for (int i = 0; i < statistics.st_size; i++)
     {
-        symbol = fgetc(input_address);//TODO пробелы внутри кавычек?
+        symbol = fgetc(input_address);
 
         if (isgraph(symbol) || symbol < 0)//для русского
         {
@@ -115,7 +119,7 @@ tree_errors basic_init(node_t** root)
     return error;
 }
 
-node_t* read_node(char** buffer, node_t* parent)//TODO структура буффера
+node_t* read_node(char** buffer, node_t* parent)
 {
     assert(buffer);
 
@@ -204,7 +208,7 @@ tree_errors file_print_tree(int argc, char* argv[], node_t* root)
     return error;
 }
 
-void file_print_node(node_t* node, FILE* const print_address, int root_hight)//TODO tabular
+void file_print_node(node_t* node, FILE* const print_address, int root_hight)
 {
     assert(node);
     assert(print_address);
@@ -470,56 +474,105 @@ void find_definition(node_t* node, char* value)
     return;
 }
 
-/*
+
 void find_difference(node_t* node, char* value_1, char* value_2)
 {
     assert(node);
     assert(value_1);
     assert(value_2);
 
-    char* way_1[MAX_COMMAND_LEN] = "Z";
-    char* way_2[MAX_COMMAND_LEN] = "Z";
-    size_t i = 0;
+    char way_1[MAX_COMMAND_LEN] = "Z";
+    char way_2[MAX_COMMAND_LEN] = "Z";
+    size_t index = 0;
     size_t min_way_len = 0;
-    size_t max_way_len = 0;
 
     find_way(node, value_1, way_1);
     find_way(node, value_2, way_2);
 
-    if (strcmp(way_1, "Z") == 0 || strcmp(way_2, "Z"))
+    if (strcmp(way_1, "Z") == 0 || strcmp(way_2, "Z") == 0)
+    {
         printf("Такого объекта нет!\n");
+        printf("way_1 = %s, way_2 = %s\n", way_1, way_2);
         return;
+    }
 
     if (strlen(way_1) > strlen(way_2))
-    {
-        max_way_len = strlen(way_1);
         min_way_len = strlen(way_2);
-    }
     else
-    {
         min_way_len = strlen(way_1);
-        max_way_len = strlen(way_2);
-    }
 
-    printf("И %s, и %s - это ", value_1, value_2
-    while(way_1[i] = way_2[i] || i < min_way_len)
+    printf("И %s, и %s - это ", value_1, value_2);
+
+    print_similar(&node, way_1, way_2, min_way_len, &index);
+
+    printf("но %s -", value_1);
+
+    print_difference(node, way_1, index);
+
+    printf(" а %s -", value_2);
+
+    print_difference(node, way_2, index);
+
+    printf(".\n");
+}
+
+tree_errors print_similar(node_t** node, char* way_1, char* way_2, size_t min_way_len, size_t* index)
+{
+    assert(node);
+    assert(way_1);
+    assert(way_2);
+    assert(index);
+
+    while(way_1[*index+1] == way_2[*index+1] && *index < min_way_len)
     {
-        printf(
-        i++;
-    }
-}*/
+        printf("%s, ", (*node)->data);
+        (*index)++;
 
+        if (way_1[*index] == 'L')
+            *node =  (*node)->left;
+        else if (way_1[*index] == 'R')
+            *node = (*node)->right;
+        else
+        {
+            printf("Ошибка при чтении пути\n");
+            return WAY_READING_ERROR;
+        }
+    }
+    return NO_ERROR;
+}
+
+tree_errors print_difference(node_t* node, char* way, size_t index)
+{
+    assert(node);
+    assert(way);
+
+    for (size_t j = index; j < strlen(way) - 1; j++)
+    {
+        if (way[j+1] == 'L')
+        {
+            printf(" %s,", node->data);
+            node = node->left;
+        }
+        if (way[j+1] == 'R')
+        {
+            printf(" не %s,", node->data);
+            node = node->right;
+        }
+    }
+
+    return NO_ERROR;
+}
 bool check_file_founded(int argc, int number_of_files)
 {
     if (argc < number_of_files)
     {
-        fprintf(stderr, "Files not founded. Please, pass two files to the program - the file with the original tree"
-                        " and the file to save the new tree. If you want the tree to be saved in the file with"
-                        " the original tree, do not pass the second file.\n");
+        fprintf(stderr, "Файлы не найдены. Пожалуйста, передайте программе два файла - файл с оригинальным деревом"
+                        " и файл, куда будет сохранено дерево. Если вы хотите, чтобы новое дерево сохранилос в файл с"
+                        " оригинальным деревом, передайте только его.\n");
         return 1;
     }
     if (argc == number_of_files)
-        fprintf(stderr, "New tree will be saved in the file with original tree.\n");
+        fprintf(stderr, "Новое дерево будет сохранено в файл с оригинальным деревом.\n");
 
     return 0;
 }

@@ -17,6 +17,7 @@ enum tree_errors{
     FILES_NOT_FOUNDED_ERROR = 5,
     READING_ERROR = 6,
     FILE_STATISTICS_ERROR = 7,
+    WAY_READING_ERROR = 8,
 };
 
 tree_errors node_init(node_t** node, char* const value, node_t* parent);
@@ -35,6 +36,9 @@ tree_errors make_new_node(node_t* node, char* user_command);
 
 char* find_way(node_t* node, char* value, char* way);
 void find_definition(node_t* node, char* value);
+void find_difference(node_t* node, char* value_1, char* value_2);
+tree_errors print_difference(node_t* node, char* way, size_t i);
+tree_errors print_similar(node_t** node, char* way_1, char* way_2, size_t min_way_len, size_t* index);
 
 bool check_file_founded(int argc, int number_of_files);
 

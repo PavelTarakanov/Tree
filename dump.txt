@@ -1,15 +1,31 @@
 digraph{
-	Z[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = животное | {left = 0x503000000070 | right = 0x5030000000a0}}"];
+	Z[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = (nil) | value = животное | {left = 0x503000000070 | right = 0x503000000280}}"];
 	Z -> ZL
-	ZL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = тупой | {left = 0x5030000000d0 | right = 0x503000000100}}"];
+	ZL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000040 | value = тупой | {left = 0x5030000000a0 | right = 0x5030000000d0}}"];
 	ZL -> ZLL
-	ZLL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = кабанчик | {left = NULL | right = NULL}}"];
+	ZLL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000070 | value = кабанчик | {left = NULL | right = NULL}}"];
 	ZL -> ZLR
-	ZLR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = пёс | {left = 0x503000000130 | right = 0x503000000160}}"];
+	ZLR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000070 | value = пёс | {left = 0x503000000100 | right = 0x5030000001f0}}"];
 	ZLR -> ZLRL
-	ZLRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Рекс | {left = NULL | right = NULL}}"];
+	ZLRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x5030000000d0 | value = был_на_цепи | {left = 0x503000000130 | right = 0x5030000001c0}}"];
+	ZLRL -> ZLRLL
+	ZLRLL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000100 | value = красивый | {left = 0x503000000160 | right = 0x503000000190}}"];
+	ZLRLL -> ZLRLLL
+	ZLRLLL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000130 | value = Бобик | {left = NULL | right = NULL}}"];
+	ZLRLL -> ZLRLLR
+	ZLRLLR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000130 | value = Шарик | {left = NULL | right = NULL}}"];
+	ZLRL -> ZLRLR
+	ZLRLR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000100 | value = Рекс | {left = NULL | right = NULL}}"];
 	ZLR -> ZLRR
-	ZLRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Потлорашка | {left = NULL | right = NULL}}"];
+	ZLRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x5030000000d0 | value = сгенерировано_нейросетью | {left = 0x503000000220 | right = 0x503000000250}}"];
+	ZLRR -> ZLRRL
+	ZLRRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x5030000001f0 | value = Бомбадило-крокодило | {left = NULL | right = NULL}}"];
+	ZLRR -> ZLRRR
+	ZLRRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x5030000001f0 | value = Полторашка | {left = NULL | right = NULL}}"];
 	Z -> ZR
-	ZR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{value = Император ведает что | {left = NULL | right = NULL}}"];
+	ZR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000040 | value = ведёт_матан | {left = 0x5030000002b0 | right = 0x5030000002e0}}"];
+	ZR -> ZRL
+	ZRL[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000280 | value = Петрович | {left = NULL | right = NULL}}"];
+	ZR -> ZRR
+	ZRR[color="black", style="filled",fillcolor="lightgrey", shape = record, label="{parent = 0x503000000280 | value = Император_ведает_что | {left = NULL | right = NULL}}"];
 }
